@@ -11,7 +11,20 @@
         android:theme="@style/Theme.IChatSocialMedaiApp">
         <activity
             android:name=".AddPostActivity"
-            android:exported="false" />
+            android:exported="true">
+
+
+                <intent-filter>
+                    <action android:name="android.intent.action.SEND" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <data android:mimeType="image/*" />
+
+
+
+
+                </intent-filter>
+
+        </activity>
         <activity
             android:name=".ChattingMessaging"
             android:exported="false" />
@@ -41,6 +54,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
+
     </application>
 
 </manifest>

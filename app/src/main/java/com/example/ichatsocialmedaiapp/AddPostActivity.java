@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.example.ichatsocialmedaiapp.Model.Post;
 import com.example.ichatsocialmedaiapp.Model.Users;
 import com.example.ichatsocialmedaiapp.databinding.ActivityAddPostBinding;
 import com.example.ichatsocialmedaiapp.databinding.ActivityMainBinding;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -111,10 +113,8 @@ public class AddPostActivity extends AppCompatActivity {
         binding.addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent();
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivityForResult(intent,10);
+               ImagePicker.Companion.with(AddPostActivity.this)
+                       .crop().start();
             }
         });
 
@@ -158,6 +158,17 @@ public class AddPostActivity extends AppCompatActivity {
 
 
 //        return binding.getRoot();
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+        if ("android.intent.action.SEND".equals(action) && type != null && "image/*".equals(type)) {
+
+            Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+
+            binding.postImage.setImageURI(imageUri);
+            binding.postImage.setVisibility(View.VISIBLE);
+            binding.postbtn.setEnabled(true);
+        }
     }
 
     @Override
