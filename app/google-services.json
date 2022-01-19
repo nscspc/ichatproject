@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "352420003856",
+    "project_id": "ichatsocialmedaiapp",
+    "storage_bucket": "ichatsocialmedaiapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352420003856:android:5712dda9c38fe84be54a95",
+        "android_client_info": {
+          "package_name": "com.example.ichatsocialmedaiapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "352420003856-cekdidkjpu7f9rp0isjn77frjankpcog.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5NaiHved2qjKsiyYaVLrHedX4pCdAOYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "352420003856-cekdidkjpu7f9rp0isjn77frjankpcog.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

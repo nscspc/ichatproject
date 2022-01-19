@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/addpost"
+        android:title="Add Post"
+        android:icon="@drawable/back_arrow"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/signout"
+        android:title="SignOut"
+        android:icon="@drawable/logout_flaticon"
+        app:showAsAction="withText"/>
+
+</menu>
