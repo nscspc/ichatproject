@@ -2,9 +2,11 @@ package com.example.ichatsocialmedaiapp.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,8 +26,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class PostRVadapter extends RecyclerView.Adapter<PostRVadapter.viewHolder> {
 
@@ -63,6 +69,10 @@ public class PostRVadapter extends RecyclerView.Adapter<PostRVadapter.viewHolder
 
         holder.binding.comment.setText(model.getCommentsCount()+"");
 
+        String postingDateTime = convertDate(model.getPostedAt()+"","dd/MM/yyyy hh:mm:a");
+        holder.binding.postingDate.setText(postingDateTime);
+
+
         FirebaseDatabase.getInstance().getReference().child("Users")
                 .child(model.getPostedBy()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -74,7 +84,7 @@ public class PostRVadapter extends RecyclerView.Adapter<PostRVadapter.viewHolder
                         .into(holder.binding.profilephoto);
 
                 holder.binding.userName.setText(users.getUserName());
-                holder.binding.about.setText(users.getProfession());
+//                holder.binding.about.setText(users.getProfession());
 
             }
 
@@ -101,9 +111,25 @@ public class PostRVadapter extends RecyclerView.Adapter<PostRVadapter.viewHolder
                             holder.binding.like.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+
+
                                     FirebaseDatabase.getInstance().getReference()
                                             .child("posts")
-                                            .child(model.getPostId())
+                                            .addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    if (snapshot.exists())
+                                                    {
+                                                        for (DataSnapshot ss2 : snapshot.getChildren())
+                                                        {
+                                                            Post model1 = ss2.getValue(Post.class);
+                                                            if (model1.getPostImage().equals(model.getPostImage()))
+                                                            {
+                                                                String key1 = ss2.getKey();
+
+                                                                FirebaseDatabase.getInstance().getReference()
+                                            .child("posts")
+                                            .child(key1)
                                             .child("likes")
                                             .child(FirebaseAuth.getInstance().getUid())
                                             .setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -111,7 +137,7 @@ public class PostRVadapter extends RecyclerView.Adapter<PostRVadapter.viewHolder
                                         public void onSuccess(Void unused) {
                                             FirebaseDatabase.getInstance().getReference()
                                                     .child("posts")
-                                                    .child(model.getPostId())
+                                                    .child(key1)
                                                     .child("postLike")
                                                     .setValue(model.getPostLike()+1).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
@@ -134,8 +160,109 @@ public class PostRVadapter extends RecyclerView.Adapter<PostRVadapter.viewHolder
                                             });
                                         }
                                     });
+
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+
+//                                    FirebaseDatabase.getInstance().getReference()
+//                                            .child("posts")
+//                                            .child(model.getPostId())
+//                                            .child("likes")
+//                                            .child(FirebaseAuth.getInstance().getUid())
+//                                            .setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                        @Override
+//                                        public void onSuccess(Void unused) {
+//                                            FirebaseDatabase.getInstance().getReference()
+//                                                    .child("posts")
+//                                                    .child(model.getPostId())
+//                                                    .child("postLike")
+//                                                    .setValue(model.getPostLike()+1).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                                @Override
+//                                                public void onSuccess(Void unused) {
+//                                                    holder.binding.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.liked_thumbs_up,0,0,0);
+//
+//                                                    notificationModel notificationmodel = new notificationModel();
+//                                                    notificationmodel.setNotificationBy(FirebaseAuth.getInstance().getUid());
+//                                                    notificationmodel.setNotificationAt(new Date().getTime());
+//                                                    notificationmodel.setPostID(model.getPostId());
+//                                                    notificationmodel.setPostedBy(model.getPostedBy());
+//                                                    notificationmodel.setType("like");
+//
+//                                                    FirebaseDatabase.getInstance().getReference()
+//                                                            .child("notification")
+//                                                            .child(model.getPostId())
+//                                                            .push()
+//                                                            .setValue(notificationmodel);
+//                                                }
+//                                            });
+//                                        }
+//                                    });
+
+
+
+                                    FirebaseDatabase.getInstance().getReference()
+                                            .child("MyPosts")
+                                            .child(FirebaseAuth.getInstance().getUid())
+                                            .addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    if (snapshot.exists())
+                                                    {
+                                                        for (DataSnapshot ss : snapshot.getChildren())
+                                                        {
+                                                            Post model2 = ss.getValue(Post.class);
+                                                            String key = ss.getKey();
+//                                                            Toast.makeText(context.getApplicationContext(), key,Toast.LENGTH_LONG).show();
+                                                            if (model.getPostImage().equals(model2.getPostImage()))
+                                                            {
+                                                                FirebaseDatabase.getInstance().getReference()
+                                                                        .child("MyPosts")
+                                                                        .child(FirebaseAuth.getInstance().getUid())
+                                                                        .child(key)
+                                                                        .child("likes")
+                                                                        .child(FirebaseAuth.getInstance().getUid())
+                                                                        .setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void unused) {
+                                                                        FirebaseDatabase.getInstance().getReference()
+                                                                                .child("MyPosts")
+                                                                                .child(FirebaseAuth.getInstance().getUid())
+                                                                                .child(key)
+                                                                                .child("postLike")
+                                                                                .setValue(model.getPostLike() + 1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                            @Override
+                                                                            public void onSuccess(Void unused) {
+                                                                                holder.binding.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.liked_thumbs_up, 0, 0, 0);
+
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+
+
                                 }
+
                             });
+
+
                         }
                     }
 
@@ -152,6 +279,7 @@ public class PostRVadapter extends RecyclerView.Adapter<PostRVadapter.viewHolder
                 Intent intent = new Intent(context, CommentActivity.class);
                 intent.putExtra("postId",model.getPostId());
                 intent.putExtra("postedBy",model.getPostedBy());
+                intent.putExtra("no","11");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -172,6 +300,10 @@ public class PostRVadapter extends RecyclerView.Adapter<PostRVadapter.viewHolder
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public static String convertDate(String dateInMilliseconds,String dateFormat) {
+        return DateFormat.format(dateFormat, Long.parseLong(dateInMilliseconds)).toString();
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {

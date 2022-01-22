@@ -42,11 +42,31 @@
         app:layout_constraintTop_toTopOf="@+id/profilephoto"
         app:layout_constraintVertical_bias="0.0" />
 
+<!--    <TextView-->
+<!--        android:id="@+id/postingDate"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="date"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/userName"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/imageView3"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/userName"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/userName" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/postingTime"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="time"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/postingDate"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/postingDate"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/postingDate" />-->
+
     <TextView
-        android:id="@+id/about"
+        android:id="@+id/postingDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="About"
+        android:text="Date Time"
+        android:textSize="@dimen/_8mdp"
         app:layout_constraintStart_toStartOf="@+id/userName"
         app:layout_constraintTop_toBottomOf="@+id/userName" />
 

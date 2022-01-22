@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.example.ichatsocialmedaiapp.Adapter.FollowerRVadapter;
 import com.example.ichatsocialmedaiapp.Adapter.PostRVadapter;
+import com.example.ichatsocialmedaiapp.Adapter.profileRVmyPostAdapter;
 import com.example.ichatsocialmedaiapp.Login;
 import com.example.ichatsocialmedaiapp.Model.Follow;
 import com.example.ichatsocialmedaiapp.Model.Post;
@@ -75,23 +76,23 @@ public class ProfileFragment extends Fragment {
         binding.myPostRv.showShimmerAdapter();
         myPostlist = new ArrayList<>();
 //        homepostlist.add(new Post(R.drawable.profile_logo,R.drawable.profile_logo,R.drawable.saved,"Sweety","about Sweety","546","45","7"));
-        PostRVadapter postRVadapter=new PostRVadapter(myPostlist,getContext());
+        profileRVmyPostAdapter postRVadapter=new profileRVmyPostAdapter(myPostlist,getContext());
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext());
         binding.myPostRv.setLayoutManager(linearLayoutManager1);
         binding.myPostRv.setNestedScrollingEnabled(false);//for continuous scrolling .
 //        homeRv.setAdapter(postRVadapter);
 
-        database.getReference().child("posts").addValueEventListener(new ValueEventListener() {
+        database.getReference().child("MyPosts").child(FirebaseAuth.getInstance().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 myPostlist.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
                     Post post = dataSnapshot.getValue(Post.class);
-                    if(post.getPostedBy().equals(FirebaseAuth.getInstance().getUid())){
+//                    if(post.getPostedBy().equals(FirebaseAuth.getInstance().getUid())){
                     post.setPostId(dataSnapshot.getKey());// setting key(key is the unique id's in the post of the users) of the post.
                     myPostlist.add(post);
-                    }
+//                    }
                 }
                 binding.myPostRv.hideShimmerAdapter();
                 binding.myPostRv.setAdapter(postRVadapter);

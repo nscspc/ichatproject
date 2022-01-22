@@ -20,6 +20,7 @@ import com.example.ichatsocialmedaiapp.Model.Users;
 import com.example.ichatsocialmedaiapp.databinding.ActivityAddPostBinding;
 import com.example.ichatsocialmedaiapp.databinding.ActivityMainBinding;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+//import com.google.android.gms.cast.framework.media.ImagePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -149,6 +150,20 @@ public class AddPostActivity extends AppCompatActivity {
                                         //push() function to push more then one value in the node.
                                     }
                                 });
+
+                                database.getReference().child("MyPosts")
+                                        .child(FirebaseAuth.getInstance().getUid())
+                                        .push()
+                                        .setValue(post).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        dialog.dismiss();
+                                        Toast.makeText(getApplicationContext(),"Posted Successfully",Toast.LENGTH_SHORT).show();
+                                        //push() function to push more then one value in the node.
+                                    }
+                                });
+
+
                             }
                         });
                     }
