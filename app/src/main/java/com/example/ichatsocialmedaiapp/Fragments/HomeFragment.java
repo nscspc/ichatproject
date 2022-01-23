@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toolbar;
 
@@ -127,48 +128,6 @@ public class HomeFragment extends Fragment {
         dialog.setMessage("Please wait....");
         dialog.setCancelable(false);
 
-//        spinner=view.findViewById(R.id.customspinner);
-//        //customdesignlist = addData();
-//spinner.setSelected(false);
-//        customdesignlist.add(new designLayout_java_class(R.drawable.plus,"first"));
-//        customdesignlist.add(new designLayout_java_class(R.drawable.plus,"Add Post"));
-//        customdesignlist.add(new designLayout_java_class(R.drawable.logout,"Logout"));
-//
-//        spinnerCustomAdapter=new SpinnerCustomAdapter(getActivity(),R.layout.spinner_custom_design,customdesignlist);
-//        spinnerCustomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(spinnerCustomAdapter);
-//
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getActivity(),"You selected "+customdesignlist.get(position).getName(),Toast.LENGTH_SHORT).show();
-//
-//                if (customdesignlist.get(position).getName().equals("Add Post"))
-//                {
-//                    Intent intent=new Intent(getActivity(), AddPostActivity.class);
-//                    startActivity(intent);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-
-//        auth = FirebaseAuth.getInstance();
-//        more=view.findViewById(R.id.more3dots);
-//        more.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Toast.makeText(getActivity(),"Sign Out",Toast.LENGTH_SHORT).show();
-//                auth.signOut();
-//                startActivity(new Intent(getActivity(), SignUp.class));
-//            }
-//        });
-
         storyRv = view.findViewById(R.id.storyRV);
 
         list = new ArrayList<>();
@@ -178,7 +137,8 @@ public class HomeFragment extends Fragment {
         storyRv.setLayoutManager(linearLayoutManager);
         storyRv.setNestedScrollingEnabled(false);
         storyRv.setAdapter(adapter);
-
+        HorizontalScrollView horizontalScrollView=view.findViewById(R.id.horizontalScrollView);
+        horizontalScrollView.setNestedScrollingEnabled(false);
         database.getReference()
                 .child("stories").addValueEventListener(new ValueEventListener() {
             @Override
