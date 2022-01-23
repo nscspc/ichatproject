@@ -49,7 +49,7 @@ public class notificationTabRvAdapter extends RecyclerView.Adapter<notificationT
         String type = model.getType();
 
         FirebaseDatabase.getInstance().getReference()
-                .child("notification")
+                .child("Users")
                 .child(model.getNotificationBy())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -62,7 +62,7 @@ public class notificationTabRvAdapter extends RecyclerView.Adapter<notificationT
 
                         if (type.equals("like"))
                         {
-                            holder.binding.notificationData.setText(Html.fromHtml("<b>"+users.getUserName()+"</b>"+" liked your post"));
+                            holder.binding.notificationData.setText(Html.fromHtml("<b>"+model.getNotificationBy()+"</b>"+" liked your post"));
 //                            Toast.makeText()
                         }
                         else if (type.equals("comment"))
