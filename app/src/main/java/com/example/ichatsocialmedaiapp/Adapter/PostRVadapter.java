@@ -53,6 +53,9 @@ public class PostRVadapter extends RecyclerView.Adapter<PostRVadapter.viewHolder
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
+//        Toast.makeText(context.getApplicationContext(),"Toast to Check",Toast.LENGTH_LONG).show();
+
+
         Post model = list.get(position);
         Picasso.get()
                 .load(model.getPostImage())
@@ -122,6 +125,8 @@ public class PostRVadapter extends RecyclerView.Adapter<PostRVadapter.viewHolder
                                                     {
                                                         for (DataSnapshot ss2 : snapshot.getChildren())
                                                         {
+                                                            Toast.makeText(context.getApplicationContext(),"Toast to Check",Toast.LENGTH_LONG).show();
+
                                                             Post model1 = ss2.getValue(Post.class);
                                                             if (model1.getPostImage().equals(model.getPostImage()))
                                                             {
@@ -144,18 +149,20 @@ public class PostRVadapter extends RecyclerView.Adapter<PostRVadapter.viewHolder
                                                 public void onSuccess(Void unused) {
                                                     holder.binding.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.liked_thumbs_up,0,0,0);
 
-                                                    notificationModel notificationmodel = new notificationModel();
-                                                    notificationmodel.setNotificationBy(FirebaseAuth.getInstance().getUid());
-                                                    notificationmodel.setNotificationAt(new Date().getTime());
-                                                    notificationmodel.setPostID(model.getPostId());
-                                                    notificationmodel.setPostedBy(model.getPostedBy());
-                                                    notificationmodel.setType("like");
+                                                    if (!(model.getPostedBy().equals(FirebaseAuth.getInstance().getUid()))) {
+                                                        notificationModel notificationmodel = new notificationModel();
+                                                        notificationmodel.setNotificationBy(FirebaseAuth.getInstance().getUid());
+                                                        notificationmodel.setNotificationAt(new Date().getTime());
+                                                        notificationmodel.setPostID(model.getPostId());
+                                                        notificationmodel.setPostedBy(model.getPostedBy());
+                                                        notificationmodel.setType("like");
 
-                                                    FirebaseDatabase.getInstance().getReference()
-                                                            .child("notification")
-                                                            .child(model.getPostId())
-                                                            .push()
-                                                            .setValue(notificationmodel);
+                                                        FirebaseDatabase.getInstance().getReference()
+                                                                .child("notification")
+                                                                .child(model.getPostId())
+                                                                .push()
+                                                                .setValue(notificationmodel);
+                                                    }
                                                 }
                                             });
                                         }

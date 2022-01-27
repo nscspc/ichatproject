@@ -11,12 +11,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.ichatsocialmedaiapp.CommentActivity;
+import com.example.ichatsocialmedaiapp.MainActivity;
 import com.example.ichatsocialmedaiapp.Model.Users;
 import com.example.ichatsocialmedaiapp.Model.notificationModel;
 import com.example.ichatsocialmedaiapp.R;
 import com.example.ichatsocialmedaiapp.databinding.NotificationTabRvDesignBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,6 +32,8 @@ public class notificationTabRvAdapter extends RecyclerView.Adapter<notificationT
 
     ArrayList<notificationModel> list;
     Context context;
+//    ViewPager vp;
+//    (MainActivity)getActivity().changeBgColor(bgGrey);
 
     public notificationTabRvAdapter(ArrayList<notificationModel> list, Context context) {
         this.list = list;
@@ -47,6 +52,11 @@ public class notificationTabRvAdapter extends RecyclerView.Adapter<notificationT
         notificationModel model = list.get(position);
 
         String type = model.getType();
+//        Boolean checkOpen = model.isCheckOpen();
+//        if (checkOpen == true)
+//        {
+//            holder.binding.openNotification.setBackgroundColor(Color.parseColor("#FFFFFF"));
+//        }
 
         FirebaseDatabase.getInstance().getReference()
                 .child("Users")
@@ -86,12 +96,13 @@ public class notificationTabRvAdapter extends RecyclerView.Adapter<notificationT
         holder.binding.openNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                notificationTabRvAdapter.this.notify();
 
                 if (!type.equals("follow"))
                 {
                     FirebaseDatabase.getInstance().getReference()
                             .child("notification")
-                            .child(model.getNotificationBy())
+                            .child(FirebaseAuth.getInstance().getUid())
                             .child(model.getNotificationID())
                             .child("checkOpen")
                             .setValue(true);
@@ -99,14 +110,21 @@ public class notificationTabRvAdapter extends RecyclerView.Adapter<notificationT
                     Intent intent = new Intent(context, CommentActivity.class);
                     intent.putExtra("postId",model.getPostID());
                     intent.putExtra("postedBy",model.getPostedBy());
+                    intent.putExtra("no","11");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
+//                    vp.setOffscreenPageLimit(0);
+//                    notificationTabRvAdapter adapter = new notificationTabRvAdapter(list, context.getApplicationContext());
+//                    adapter.notifyDataSetChanged();
+//                    Intent refresh= new Intent(context,context.getClass());
+//                    context.startActivity(refresh);
+
                 }
             }
         });
 
-        Boolean checkOpen = model.isCheckOpen();
-        if (checkOpen == true)
+        Boolean checkOpen2 = model.isCheckOpen();
+        if (checkOpen2 == true)
         {
             holder.binding.openNotification.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
@@ -131,6 +149,7 @@ public class notificationTabRvAdapter extends RecyclerView.Adapter<notificationT
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             binding = NotificationTabRvDesignBinding.bind(itemView);
+//            vp=itemView.findViewById(R.id.viewpager_);
 //            profile=itemView.findViewById(R.id.profilephoto);
 //            notificationdata=itemView.findViewById(R.id.notification_data);
 //            notificationtime=itemView.findViewById(R.id.notification_time);

@@ -1,5 +1,7 @@
 package com.example.ichatsocialmedaiapp.Adapter;
 
+import static com.example.ichatsocialmedaiapp.Adapter.PostRVadapter.convertDate;
+
 import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -55,7 +57,10 @@ public class CommentRVadapter extends RecyclerView.Adapter<CommentRVadapter.view
                         .load(users.getProfilePhoto())
                         .placeholder(R.drawable.coverimageicon)
                         .into(holder.binding.profilephoto);
-                holder.binding.commentname.setText(Html.fromHtml("<b>"+users.getUserName()+"</b>"+" "+" "+ comments.getCommentBody()));
+                holder.binding.commentname.setText(Html.fromHtml("<b>"+users.getUserName()+"</b>"+"  "+" "+ comments.getCommentBody()));
+                String commentingDateTime = convertDate(comments.getCommentedAt()+"","dd/MM/yyyy hh:mm:a");
+                holder.binding.datetime.setText(commentingDateTime);
+
 
             }
 

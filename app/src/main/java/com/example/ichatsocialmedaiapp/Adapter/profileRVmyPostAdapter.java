@@ -188,19 +188,22 @@ public class profileRVmyPostAdapter extends RecyclerView.Adapter<profileRVmyPost
                                                                             public void onSuccess(Void unused) {
                                                                                 holder.binding.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.liked_thumbs_up,0,0,0);
 
-                                                                                notificationModel notificationmodel = new notificationModel();
-                                                                                notificationmodel.setNotificationBy(FirebaseAuth.getInstance().getUid());
-                                                                                notificationmodel.setNotificationAt(new Date().getTime());
-                                                                                notificationmodel.setPostID(model.getPostId());
-                                                                                notificationmodel.setPostedBy(model.getPostedBy());
-                                                                                notificationmodel.setType("like");
+                                                                                if (!(FirebaseAuth.getInstance().getUid().equals(model.getPostedBy())))
+                                                                                {
+                                                                                    notificationModel notificationmodel = new notificationModel();
+                                                                                    notificationmodel.setNotificationBy(FirebaseAuth.getInstance().getUid());
+                                                                                    notificationmodel.setNotificationAt(new Date().getTime());
+                                                                                    notificationmodel.setPostID(model.getPostId());
+                                                                                    notificationmodel.setPostedBy(model.getPostedBy());
+                                                                                    notificationmodel.setType("like");
 
-                                                                                FirebaseDatabase.getInstance().getReference()
-                                                                                        .child("notification")
-                                                                                        .child(model.getPostId())
-                                                                                        .push()
-                                                                                        .setValue(notificationmodel);
-                                                                            }
+                                                                                    FirebaseDatabase.getInstance().getReference()
+                                                                                            .child("notification")
+                                                                                            .child(model.getPostId())
+                                                                                            .push()
+                                                                                            .setValue(notificationmodel);
+                                                                                }
+                                                                                }
                                                                         });
                                                                     }
                                                                 });

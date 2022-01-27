@@ -195,19 +195,21 @@ public class CommentActivity extends AppCompatActivity {
                                                                     binding.commentET.setText("");// to set the comment box blank after commenting.
 //                                                                    Toast.makeText(getApplicationContext(), "Commented", Toast.LENGTH_SHORT).show();
 
-                                                                    notificationModel notificationmodel = new notificationModel();
-                                                                    notificationmodel.setNotificationBy(FirebaseAuth.getInstance().getUid());
-                                                                    notificationmodel.setNotificationAt(new Date().getTime());
-                                                                    notificationmodel.setPostID(FirebaseAuth.getInstance().getUid());
-                                                                    notificationmodel.setPostedBy(postedBy);
-                                                                    notificationmodel.setType("comment");
+                                                                    if (!((FirebaseAuth.getInstance().getUid()).equals(postedBy))) {
+                                                                        notificationModel notificationmodel = new notificationModel();
+                                                                        notificationmodel.setNotificationBy(FirebaseAuth.getInstance().getUid());
+                                                                        notificationmodel.setNotificationAt(new Date().getTime());
+                                                                        notificationmodel.setPostID(FirebaseAuth.getInstance().getUid());
+                                                                        notificationmodel.setPostedBy(postedBy);
+                                                                        notificationmodel.setType("comment");
 
-                                                                    FirebaseDatabase.getInstance().getReference()
-                                                                            .child("notification")
-                                                                            .child(postedBy)
-                                                                            .push()
-                                                                            .setValue(notificationmodel);
-                                                                }
+                                                                        FirebaseDatabase.getInstance().getReference()
+                                                                                .child("notification")
+                                                                                .child(postedBy)
+                                                                                .push()
+                                                                                .setValue(notificationmodel);
+                                                                        }
+                                                                    }
                                                             });
                                                         }
 
@@ -237,15 +239,19 @@ public class CommentActivity extends AppCompatActivity {
 
 
                 pi2=pih;
-
+//            loops:
                 FirebaseDatabase.getInstance().getReference()
                         .child("posts")
                         .addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if (snapshot.exists()) {
-
+                                    loops:
                                     for (DataSnapshot ss2 : snapshot.getChildren()) {
+
+//                                        Toast.makeText(CommentActivity.this,"Toast to Check",Toast.LENGTH_LONG).show();
+
+
                                         Post model1 = ss2.getValue(Post.class);
 
                                         if (model1.getPostImage().equals(pi2)) {
@@ -282,19 +288,22 @@ public class CommentActivity extends AppCompatActivity {
                                                                     binding.commentET.setText("");// to set the comment box blank after commenting.
                                                                     Toast.makeText(getApplicationContext(), "Commented", Toast.LENGTH_SHORT).show();
 
-                                                                    notificationModel notificationmodel = new notificationModel();
-                                                                    notificationmodel.setNotificationBy(FirebaseAuth.getInstance().getUid());
-                                                                    notificationmodel.setNotificationAt(new Date().getTime());
-                                                                    notificationmodel.setPostID(key1);
-                                                                    notificationmodel.setPostedBy(postedBy);
-                                                                    notificationmodel.setType("comment");
+                                                                    if (!(FirebaseAuth.getInstance().getUid().equals(postedBy)))
+                                                                    {
+                                                                        notificationModel notificationmodel = new notificationModel();
+                                                                        notificationmodel.setNotificationBy(FirebaseAuth.getInstance().getUid());
+                                                                        notificationmodel.setNotificationAt(new Date().getTime());
+                                                                        notificationmodel.setPostID(key1);
+                                                                        notificationmodel.setPostedBy(postedBy);
+                                                                        notificationmodel.setType("comment");
 
-                                                                    FirebaseDatabase.getInstance().getReference()
-                                                                            .child("notification")
-                                                                            .child(postedBy)
-                                                                            .push()
-                                                                            .setValue(notificationmodel);
-                                                                }
+                                                                        FirebaseDatabase.getInstance().getReference()
+                                                                                .child("notification")
+                                                                                .child(postedBy)
+                                                                                .push()
+                                                                                .setValue(notificationmodel);
+                                                                    }
+                                                                    }
                                                             });
                                                         }
 
@@ -307,7 +316,7 @@ public class CommentActivity extends AppCompatActivity {
                                             });
                                             pi2 = "sdlkfj";
 
-                                            break;
+                                            break loops;
                                         }
 
                                     }

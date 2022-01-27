@@ -1,5 +1,7 @@
 package com.example.ichatsocialmedaiapp.Adapter;
 
+import static com.example.ichatsocialmedaiapp.Adapter.PostRVadapter.convertDate;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -106,18 +108,20 @@ public class ChattingMessagingAdapter extends RecyclerView.Adapter{
         if (holder.getClass() == SenderviewHolder.class)
         {
             ((SenderviewHolder)holder).sendermsg.setText(messagesModel.getMessage());
-            Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-            cal.setTimeInMillis(messagesModel.getTimestamp() * 1000L);
-            String timehms = DateFormat.format("hh:mm:ss", cal).toString();
-            ((SenderviewHolder)holder).sendertime.setText(timehms);
+//            Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+//            cal.setTimeInMillis(messagesModel.getTimestamp() * 1000L);
+//            String timehms = DateFormat.format("hh:mm:ss", cal).toString();
+            String sendingDateTime = convertDate(messagesModel.getTimestamp()+"","hh:mm:a");
+            ((SenderviewHolder)holder).sendertime.setText(sendingDateTime);
         }
         else
         {
             ((ReceiverviewHolder)holder).receivermsg.setText(messagesModel.getMessage());
-            Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-            cal.setTimeInMillis(messagesModel.getTimestamp() * 1000L);
-            String timehms = DateFormat.format("hh:mm:ss", cal).toString();
-            ((ReceiverviewHolder)holder).receivertime.setText(timehms);
+//            Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+//            cal.setTimeInMillis(messagesModel.getTimestamp() * 1000L);
+//            String timehms = DateFormat.format("hh:mm:ss", cal).toString();
+            String receivingDateTime = convertDate(messagesModel.getTimestamp()+"","hh:mm:a");
+            ((ReceiverviewHolder)holder).receivertime.setText(receivingDateTime);
         }
 
 

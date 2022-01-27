@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
@@ -155,6 +156,8 @@ public class HomeFragment extends Fragment {
                         for (DataSnapshot snapshot1 : storySnapshot.child("userStories").getChildren()){
                             UserStories userStories = snapshot1.getValue(UserStories.class);
                             stories.add(userStories);
+
+//                            Toast.makeText(getActivity(),"Toast to Check",Toast.LENGTH_LONG).show();
                         }
                         storyModel.setStories(stories);
                         list.add(storyModel);
@@ -187,6 +190,8 @@ public class HomeFragment extends Fragment {
                     Post post = dataSnapshot.getValue(Post.class);
                     post.setPostId(dataSnapshot.getKey());// setting key(key is the unique id's in the post of the users) of the post.
                     homepostlist.add(post);
+//                    Toast.makeText(getActivity(),"Toast to Check",Toast.LENGTH_LONG).show();
+
                 }
                 homeRv.hideShimmerAdapter();
                 homeRv.setAdapter(postRVadapter);

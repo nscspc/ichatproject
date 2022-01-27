@@ -1,5 +1,6 @@
 package com.example.ichatsocialmedaiapp.Fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -82,4 +83,7 @@ public class notificationTabFragment extends Fragment {
         return view;
 
     }
+
+
 }
+
