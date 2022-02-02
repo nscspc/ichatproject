@@ -50,7 +50,7 @@ int i;
 //                }else {
 //                    holder.videoView.setScaleY(1f/scale);
 //                }
-                vIdeoModelList.add(new VIdeoModel("https://firebasestorage.googleapis.com/v0/b/ichatsocialmedaiapp.appspot.com/o/shorts%2F%5B000513%5D.mp4?alt=media&token=9b96ba4c-09bd-4f4f-b76f-7e5968cbae5d"));
+//                vIdeoModelList.add(new VIdeoModel("https://firebasestorage.googleapis.com/v0/b/ichatsocialmedaiapp.appspot.com/o/shorts%2F%5B000513%5D.mp4?alt=media&token=9b96ba4c-09bd-4f4f-b76f-7e5968cbae5d"));
 
             }
         });
